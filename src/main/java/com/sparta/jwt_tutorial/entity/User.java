@@ -6,7 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity
+@Entity //db와 1:1로 매핑되는 객체를 말함.
 @Table(name = "user")
 @Getter
 @Setter
@@ -32,6 +32,7 @@ public class User {
     @Column(name = "activated")
     private boolean activated;
 
+    // 테이블의 매핑을 일대다,다대일의 테이블로 정의했다.
     @ManyToMany
     @JoinTable(
             name = "user_authority",

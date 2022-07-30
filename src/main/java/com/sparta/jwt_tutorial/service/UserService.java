@@ -46,13 +46,18 @@ public class UserService {
         return UserDto.from(userRepository.save(user));
     }
 
+    // 두가지 메서드의 허용권한을 다르게해서 권한 검증에 대한 부분을 테스트해보자.
+    // getUserWithAuthorities는 username을 기준으로 정보를 가져오고
     @Transactional(readOnly = true)
     public UserDto getUserWithAuthorities(String username) {
         return UserDto.from(userRepository.findOneWithAuthoritiesByUsername(username).orElse(null));
     }
 
+    // getMyUserWithAuthorities는 securityContext에 저장된 username의 정보만 가져온다.
     @Transactional(readOnly = true)
     public UserDto getMyUserWithAuthorities() {
         return UserDto.from(SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUsername).orElse(null));
+
+
     }
 }
